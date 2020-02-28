@@ -17,15 +17,17 @@
 """Tests for normalization layers."""
 
 from absl.testing import absltest
+from absl.testing import parameterized
 import numpy as onp
 
 from trax.layers import base
 from trax.layers import normalization
 from trax.math import numpy as np
+from trax.math import use_backend
 from trax.shapes import ShapeDtype
 
 
-class NormalizationLayerTest(absltest.TestCase):
+class NormalizationLayerTest(parameterized.TestCase):
 
   def test_batch_norm_shape(self):
     input_signature = ShapeDtype((29, 5, 7, 20))
@@ -61,6 +63,7 @@ class NormalizationLayerTest(absltest.TestCase):
     result_shape = base.check_shape_agreement(
         normalization.LayerNorm(), input_signature)
     self.assertEqual(result_shape, input_signature.shape)
+
 
   def test_frn_shape(self):
     B, H, W, C = 64, 5, 7, 3  # pylint: disable=invalid-name
